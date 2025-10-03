@@ -60,3 +60,28 @@ INSERT IGNORE INTO events (org_id,category_id,title,description,start_datetime,e
 
 ALTER TABLE events
   ADD COLUMN status ENUM('ACTIVE','SUSPENDED') NOT NULL DEFAULT 'ACTIVE';
+
+
+-- ================================
+-- A3: Registrations (event sign-ups)
+-- ================================
+CREATE TABLE IF NOT EXISTS registrations (
+  registration_id INT AUTO_INCREMENT PRIMARY KEY,
+  event_id        INT NOT NULL,
+  full_name       VARCHAR(120) NOT NULL,
+  email           VARCHAR(180) NOT NULL,
+  phone           VARCHAR(60),
+  tickets         INT NOT NULL CHECK (tickets >= 1),
+  registered_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_regs_event
+    FOREIGN KEY (event_id) REFERENCES events(event_id)
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+  -- One registration per email per event
+  CONSTRAINT uq_event_email UNIQUE (event_id, email)
+);
+
+-- Seed a few registrations (adjust event_id to ones that exist on your DB)
+INSERT INTO registrations (event_id, full_name, email, phone, tickets) VALUES
+  (1,'Jane Doe','jane@example.com','0400000001',2),
+  (1,'Sam Reed','sam@example.com',NULL,1),
+  (2,'Ivy Chen','ivy@example.com','0400000002',3);
