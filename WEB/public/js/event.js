@@ -126,4 +126,13 @@ async function load() {
   }
 }
 
+// at end of load()
+if (new URLSearchParams(location.search).get('registered') === '1') {
+  const note = document.createElement('p');
+  note.style.color = 'green';
+  note.textContent = 'Registration successful.';
+  document.getElementById('event-detail').prepend(note);
+}
+
+
 window.addEventListener('DOMContentLoaded', load);
