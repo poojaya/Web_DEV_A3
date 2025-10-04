@@ -165,3 +165,25 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+// routes/events.js  (GET /api/events/:id)
+router.get('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  const rows = await db.query(`
+    SELECT e.*, c.name AS category_name, o.name AS org_name
+    FROM events e
+    JOIN categories c   ON c.category_id = e.category_id
+    JOIN organisations o ON o.org_id     = e.org_id
+    WHERE e.event_id = ?`, [id]);
+
+  if (!rows.length) return res.status(404).json({ error: 'Not found' });
+
+  const regs = await db.query(`
+    SELECT registration_id, full_name, email, phone, tickets, registered_at
+    FROM registrations
+    WHERE event_id = ?
+    ORDER BY registered_at DESC`, [id]);
+
+  const event = rows[0];
+  event.registrations = regs;
+  res.json(event);
+});
