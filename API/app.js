@@ -32,6 +32,7 @@ app.get('/api/categories', async (_req, res) => {
       res.json(rows);
     } catch (e) { res.status(500).json({error:'Server error'}); }
   });
+
+const registrations = require('./routes/registrations');
+app.use('/api/registrations', registrations);
   
-  const registrations = require('./routes/registrations');
-  app.use('/api/registrations', registrations);
