@@ -86,6 +86,3 @@ INSERT INTO registrations (event_id, full_name, email, phone, tickets) VALUES
   (1,'Sam Reed','sam@example.com',NULL,1),
   (2,'Ivy Chen','ivy@example.com','0400000002',3);
 
-ALTER TABLE events
-  ADD COLUMN lat DECIMAL(9,6) NULL,
-  ADD COLUMN lng DECIMAL(9,6) NULL;
