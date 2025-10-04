@@ -33,3 +33,5 @@ app.get('/api/categories', async (_req, res) => {
     } catch (e) { res.status(500).json({error:'Server error'}); }
   });
   
+  const registrations = require('./routes/registrations');
+  app.use('/api/registrations', registrations);
