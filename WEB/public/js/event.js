@@ -30,12 +30,21 @@ function renderEvent(ev) {
 
     <p><strong>Ticket:</strong> ${currency(ev.ticket_price)}</p>
 
-    <p><strong>Goal:</strong> ${currency(ev.goal_amount)} ·
-       <strong>Raised:</strong> ${currency(ev.raised_amount || 0)}</p>
+    <p>
+      <strong>Goal:</strong> <span id="ev-goal">${currency(ev.goal_amount)}</span>
+      · <strong>Raised:</strong> <span id="ev-raised">A$0.00</span>
+    </p>
+
+    <!-- tiny progress bar -->
+    <div id="ev-progress-wrap"
+         style="margin:8px 0;width:420px;height:10px;background:#eee;border-radius:6px;overflow:hidden">
+      <div id="ev-progress" style="height:10px;width:0;background:#4caf50"></div>
+    </div>
 
     <p>${ev.description ? ev.description : ''}</p>
   `;
 }
+
 
 function renderRegs(regs, eventForTotals) {
   const tbody = document.getElementById('regs-body');
@@ -44,9 +53,16 @@ function renderRegs(regs, eventForTotals) {
   if (!regs || regs.length === 0) {
     tbody.innerHTML = `<tr><td colspan="5">No registrations yet.</td></tr>`;
     summary.textContent = '';
+    // also reset raised/progress if the event has a goal
+    const goal = Number(eventForTotals?.goal_amount || 0);
+    const raisedEl = document.getElementById('ev-raised');
+    const bar = document.getElementById('ev-progress');
+    if (raisedEl) raisedEl.textContent = currency(0);
+    if (bar) bar.style.width = goal > 0 ? '0%' : '0';
     return;
   }
 
+  // table rows
   tbody.innerHTML = regs.map(r => `
     <tr>
       <td>${fmtDateTime(r.registered_at)}</td>
@@ -57,14 +73,32 @@ function renderRegs(regs, eventForTotals) {
     </tr>
   `).join('');
 
+  // totals
   const totalTickets = regs.reduce((s, r) => s + (Number(r.tickets) || 0), 0);
-  const perTicket = Number(eventForTotals?.ticket_price || 0);
-  const estRaised = totalTickets * perTicket;
+  const perTicket    = Number(eventForTotals?.ticket_price || 0);
+  const estRaised    = totalTickets * perTicket;
+  const goal         = Number(eventForTotals?.goal_amount || 0);
 
   summary.textContent =
     `Total registrations: ${regs.length} · Tickets: ${totalTickets}` +
     (perTicket ? ` · Estimated raised: ${currency(estRaised)}` : '');
+
+  // update "Raised" + progress bar
+  const raisedEl = document.getElementById('ev-raised');
+  if (raisedEl) raisedEl.textContent = currency(estRaised);
+
+  const bar = document.getElementById('ev-progress');
+  if (bar) {
+    const pct = goal > 0 ? Math.min(100, Math.round((estRaised / goal) * 100)) : 0;
+    bar.style.width = `${pct}%`;
+    bar.title = `${pct}%`;
+  }
+
+  // keep goal text in sync (in case it was null/undefined)
+  const goalEl = document.getElementById('ev-goal');
+  if (goalEl) goalEl.textContent = currency(goal);
 }
+
 
 async function load() {
   const id = Number(qs('id'));
