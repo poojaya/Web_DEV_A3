@@ -93,4 +93,3 @@ async function load() {
 }
 
 window.addEventListener('DOMContentLoaded', load);
-document.getElementById('register-link').href = `/register.html?event_id=${eventId}`;
