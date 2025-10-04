@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Event details</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
   <p>
@@ -14,13 +14,21 @@
   <p><a href="/events.html">← Back to events</a></p>
 
   <div id="event-detail">Loading…</div>
-
-  <h3>Register</h3>
-  <form onsubmit="alert('This feature is currently under construction.'); return false;">
-    <label>Tickets: <input type="number" min="1" value="1"></label>
-    <button type="submit">Register</button>
-  </form>
-
+  <p>
+    <a id="register-link" class="btn" href="#">Register</a>
+  </p>
+  <h3>Registrations</h3>
+  <table border="1" cellpadding="6" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th>
+      </tr>
+    </thead>
+    <tbody id="regs-body">
+      <tr><td colspan="5">Loading…</td></tr>
+    </tbody>
+  </table>
+  <p id="regs-summary"></p>
   <script src="/js/event.js"></script>
 </body>
 </html>
