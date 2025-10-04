@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Register for Event</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 900px; margin: 24px auto; }
+    header a { margin-right: 12px; }
+    fieldset { border: 1px solid #ccc; padding: 16px; }
+    label { display:block; margin: 8px 0 4px; }
+    input, button { padding: 6px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    #msg { margin-top: 12px; font-weight: 600; }
+    .event-summary { background:#fafafa; border:1px solid #ddd; padding:12px; margin-bottom:16px; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/index.html">Home</a> |
+    <a href="/events.html">Browse events</a> |
+    <a href="javascript:history.back()">← Back</a>
+  </header>
+
+  <h1>Register</h1>
+
+  <section id="event" class="event-summary">Loading event…</section>
+
+  <form id="reg-form">
+    <fieldset>
+      <legend>Your details</legend>
+      <label for="full_name">Full name *</label>
+      <input id="full_name" name="full_name" required />
+
+      <label for="email">Email *</label>
+      <input id="email" name="email" type="email" required />
+
+      <div class="row">
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" />
+        </div>
+        <div>
+          <label for="tickets">Tickets *</label>
+          <input id="tickets" name="tickets" type="number" min="1" value="1" required />
+        </div>
+      </div>
+
+      <button type="submit">Confirm registration</button>
+      <div id="msg"></div>
+    </fieldset>
+  </form>
+
+  <script src="/js/register.js"></script>
+</body>
+</html>
