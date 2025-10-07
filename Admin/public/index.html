@@ -63,12 +63,17 @@
       <div id="form-msg"></div>
 
       <h3>Registrations (selected event)</h3>
-      <table>
-        <thead><tr><th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th></tr></thead>
-        <tbody id="regs-body"><tr><td colspan="5">Select an event.</td></tr></tbody>
-      </table>
-    </section>
-  </div>
+    <div id="regs-card">
+    <table>
+        <thead>
+        <tr><th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th></tr>
+        </thead>
+        <tbody id="regs-body">
+        <tr><td colspan="5">Select an event.</td></tr>
+        </tbody>
+    </table>
+    </div>
+
 
   <script>
     window.API_BASE = (new URLSearchParams(location.search).get('api') || '').replace(/\/$/, '');
