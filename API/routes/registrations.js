@@ -3,8 +3,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// POST /api/registrations
-// Body: { event_id, full_name, email, phone?, tickets? }
 router.post('/', async (req, res) => {
   const { event_id, full_name, email, phone = null, tickets = 1 } = req.body || {};
   if (!event_id || !full_name || !email) {
@@ -14,12 +12,14 @@ router.post('/', async (req, res) => {
   if (t < 1) return res.status(400).json({ error: 'tickets must be >= 1' });
 
   try {
-    const [r] = await db.query(
-      `INSERT INTO registrations (event_id, full_name, email, phone, tickets)
-       VALUES (?, ?, ?, ?, ?)`,
+    // no array destructuring here
+    const result = await db.query(
+      `INSERT INTO registrations (event_id, full_name, email, phone, tickets, registered_at)
+       VALUES (?, ?, ?, ?, ?, NOW())`,
       [event_id, full_name.trim(), email.trim(), phone, t]
     );
-    res.status(201).json({ registration_id: r.insertId });
+
+    return res.status(201).json({ ok: true, registration_id: result.insertId });
   } catch (e) {
     if (e.code === 'ER_DUP_ENTRY') {
       return res.status(409).json({ error: 'You already registered for this event with this email' });
@@ -27,10 +27,9 @@ router.post('/', async (req, res) => {
     if (e.code === 'ER_NO_REFERENCED_ROW_2') {
       return res.status(400).json({ error: 'Unknown event_id' });
     }
-    console.error(e);
-    res.status(500).json({ error: 'Server error' });
+    console.error('POST /registrations', e);
+    return res.status(500).json({ error: 'Server error' });
   }
 });
 
 module.exports = router;
-
