@@ -3,7 +3,27 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:8080' })); // web app origin
+const cors = require('cors');
+
+const allowList = [
+  'http://localhost:8080', // client
+  'http://localhost:8090', // admin
+  process.env.WEB_ORIGIN,
+  process.env.ADMIN_ORIGIN
+].filter(Boolean);
+
+app.use(cors({
+  origin(origin, cb) {
+    // allow same-origin or tools (curl/postman have no origin)
+    if (!origin) return cb(null, true);
+    if (allowList.includes(origin)) return cb(null, true);
+    return cb(new Error('Not allowed by CORS'));
+  },
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+app.options('*', cors());
+
 app.use(express.json());
 
 app.use('/api/events', require('./routes/events')); // your events router
