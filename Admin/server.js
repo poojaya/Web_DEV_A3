@@ -4,8 +4,8 @@ const app = express();
 
 app.use(express.static('public'));
 
-// Inject API_BASE into the page at /config.js (safer than inline env)
-app.get('/config.js', (req, res) => {
+// Expose API_BASE to the browser
+app.get('/config.js', (_req, res) => {
   res.type('js').send(`window.API_BASE=${JSON.stringify(process.env.API_BASE || '')};`);
 });
 

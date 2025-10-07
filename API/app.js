@@ -35,4 +35,7 @@ app.get('/api/categories', async (_req, res) => {
 
 const registrations = require('./routes/registrations');
 app.use('/api/registrations', registrations);
-  
+const cors = require('cors');
+// for local dev: allow both the client (8080) and admin (8090)
+app.use(cors({ origin: ['http://localhost:8080','http://localhost:8090'] }));
+// or, for quick dev only: app.use(cors());
