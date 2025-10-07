@@ -30,17 +30,18 @@ async function loadLookups(){
 function renderEvents(rows){
   const tb = $('#events-body');
   if(!rows.length){ tb.innerHTML = `<tr><td colspan="7">No events.</td></tr>`; return; }
-  tb.innerHTML = rows.map(e=>`
+  tbody.innerHTML = rows.map(e => `
     <tr>
       <td>${e.event_id}</td>
       <td>${e.title}</td>
-      <td>${e.category_name||''}</td>
-      <td>${e.org_name||''}</td>
-      <td>${[e.city,e.state].filter(Boolean).join(', ')}</td>
-      <td>${e.start_datetime?.replace('T',' ').slice(0,16) || '-'}</td>
+      <td>${e.category_name ?? '-'}</td>
+      <td>${e.org_name ?? '-'}</td>
+      <td>${e.city ?? '-'}</td>
+      <td>${new Date(e.start_datetime).toLocaleString()}</td>
       <td>
-        <button data-edit="${e.event_id}">Edit</button>
-        <button data-del="${e.event_id}">Delete</button>
+        <button class="edit-btn"   data-id="${e.event_id}">Edit</button>
+        <button class="delete-btn" data-id="${e.event_id}">Delete</button>
+        <button class="regs-btn"   data-id="${e.event_id}">Regs</button>
       </td>
     </tr>
   `).join('');
