@@ -1,44 +1,32 @@
-// /API/routes/events.js
+
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// helper: build WHERE clause + params for /events? filters
 function buildFilters(q) {
   const where = [];
   const params = [];
-
   if (q.category) { where.push('e.category_id = ?'); params.push(Number(q.category)); }
   if (q.org)      { where.push('e.org_id = ?');      params.push(Number(q.org)); }
   if (q.city)     { where.push('e.city LIKE ?');     params.push(`%${q.city}%`); }
   if (q.state)    { where.push('e.state LIKE ?');    params.push(`%${q.state}%`); }
-  if (q.date)     { where.push('DATE(e.start_datetime) = ?'); params.push(q.date); } // yyyy-mm-dd
-  if (q.after)    { where.push('e.start_datetime >= ?'); params.push(q.after); }     // iso datetime
-  if (q.q) {
-    where.push('(e.title LIKE ? OR e.description LIKE ?)');
-    params.push(`%${q.q}%`, `%${q.q}%`);
-  }
+  if (q.date)     { where.push('DATE(e.start_datetime) = ?'); params.push(q.date); }
+  if (q.after)    { where.push('e.start_datetime >= ?');      params.push(q.after); }
+  if (q.q)        { where.push('(e.title LIKE ? OR e.description LIKE ?)'); params.push(`%${q.q}%`, `%${q.q}%`); }
   return { sql: where.length ? 'WHERE ' + where.join(' AND ') : '', params };
 }
 
-// GET /events (list + filters)
 router.get('/', async (req, res) => {
   try {
     const { sql, params } = buildFilters(req.query);
-    const rows = await db.query(
-      `
-      SELECT
-        e.*,
-        c.name  AS category_name,
-        o.name  AS org_name
+    const rows = await db.query(`
+      SELECT e.*, c.name AS category_name, o.name AS org_name
       FROM events e
       JOIN categories c ON c.category_id = e.category_id
       JOIN organisations o ON o.org_id = e.org_id
       ${sql}
       ORDER BY e.start_datetime ASC
-      `,
-      params
-    );
+    `, params);
     res.json(rows);
   } catch (err) {
     console.error('GET /events error', err);
@@ -46,22 +34,30 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /events/:id
 router.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const rows = await db.query(
-      `
+
+    const events = await db.query(`
       SELECT e.*, c.name AS category_name, o.name AS org_name
       FROM events e
-      JOIN categories c ON c.category_id = e.category_id
-      JOIN organisations o ON o.org_id = e.org_id
+      JOIN categories c    ON c.category_id = e.category_id
+      JOIN organisations o ON o.org_id      = e.org_id
       WHERE e.event_id = ?
-      `,
-      [id]
-    );
-    if (!rows.length) return res.status(404).json({ error: 'Not found' });
-    res.json(rows[0]);
+    `, [id]);
+
+    if (!events.length) return res.status(404).json({ error: 'Not found' });
+
+    const regs = await db.query(`
+      SELECT registration_id, full_name, email, phone, tickets, registered_at
+      FROM registrations
+      WHERE event_id = ?
+      ORDER BY registered_at DESC
+    `, [id]);
+
+    const ev = events[0];
+    ev.registrations = regs;
+    res.json(ev);
   } catch (err) {
     console.error('GET /events/:id error', err);
     res.status(500).json({ error: 'Server error' });
