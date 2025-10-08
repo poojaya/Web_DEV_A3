@@ -5,31 +5,59 @@
   <title>Admin • Registrations</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; max-width: 900px; margin: 2rem auto; }
-    table { width: 100%; border-collapse: collapse; margin-top: .5rem }
-    th, td { border: 1px solid #ccc; padding: .5rem; }
+    body{font-family:system-ui,-apple-system,Segoe UI,sans-serif; max-width:900px; margin:2rem auto;}
+    table{width:100%; border-collapse:collapse; margin-top:.5rem}
+    th,td{border:1px solid #ccc; padding:.5rem;}
   </style>
 </head>
 <body>
-  <p><a id="back-link" href="index.html">← Back to events</a></p>
-  <h1 id="title">Loading…</h1>
-  <p id="meta"></p>
+  <p><a id="back">&larr; Back to events</a></p>
 
-  <h3>Registrations</h3>
+  <h1 id="title">Registrations</h1>
+  <p id="event-brief"></p>
+
   <table>
     <thead><tr><th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th></tr></thead>
-    <tbody id="regs-body"><tr><td colspan="5">Loading…</td></tr></tbody>
+    <tbody id="tbody"><tr><td colspan="5">Loading…</td></tr></tbody>
   </table>
 
   <script>
-    window.API_BASE = (new URLSearchParams(location.search).get('api') || '').replace(/\/$/, '');
+    const qs = n => new URLSearchParams(location.search).get(n);
+    const API = (qs('api') || '').replace(/\/$/,'') || 'http://localhost:3060/api';
+    const id = Number(qs('id'));
+
+    document.getElementById('back').href = `index.html?api=${encodeURIComponent(API)}`;
+
+    async function fetchJSON(u, opt) {
+      const r = await fetch(u, opt); const t = await r.text();
+      let j; try { j = JSON.parse(t) } catch { j = { raw: t } }
+      if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      return j;
+    }
+    const fmt = s => s ? new Date(s).toLocaleString() : '-';
+
+    (async function load(){
+      if (!id) { document.getElementById('tbody').innerHTML = '<tr><td colspan="5">Missing id</td></tr>'; return; }
+      const ev = await fetchJSON(`${API}/events/${id}`);
+      document.getElementById('title').textContent = `Registrations • ${ev.title}`;
+      document.getElementById('event-brief').textContent =
+        `${fmt(ev.start_datetime)}${ev.end_datetime ? ' – ' + fmt(ev.end_datetime) : ''} • ${[ev.venue, ev.city, ev.state, ev.country].filter(Boolean).join(', ')}`;
+
+      const regs = ev.registrations || [];
+      document.getElementById('tbody').innerHTML =
+        regs.length ? regs.map(r => `
+          <tr>
+            <td>${fmt(r.registered_at)}</td>
+            <td>${r.full_name}</td>
+            <td>${r.tickets}</td>
+            <td>${r.email || '-'}</td>
+            <td>${r.phone || '-'}</td>
+          </tr>`).join('')
+        : '<tr><td colspan="5">No registrations.</td></tr>';
+    })().catch(e => {
+      document.getElementById('tbody').innerHTML =
+        `<tr><td colspan="5" style="color:#b00">Failed: ${e.message}</td></tr>`;
+    });
   </script>
-  <script src="/config.js"></script>
-  <script>
-    window.API_BASE = (new URLSearchParams(location.search).get('api')
-                      || window.API_BASE
-                      || 'http://localhost:3060/api').replace(/\/$/, '');
-  </script>
-  <script src="js/regs.js"></script>
 </body>
 </html>
