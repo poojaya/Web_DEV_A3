@@ -28,24 +28,28 @@ async function loadLookups(){
 }
 
 function renderEvents(rows){
-  const tb = $('#events-body');
-  if(!rows.length){ tb.innerHTML = `<tr><td colspan="7">No events.</td></tr>`; return; }
-  tbody.innerHTML = rows.map(e => `
-    <tr>
-      <td>${e.event_id}</td>
-      <td>${e.title}</td>
-      <td>${e.category_name ?? '-'}</td>
-      <td>${e.org_name ?? '-'}</td>
-      <td>${e.city ?? '-'}</td>
-      <td>${new Date(e.start_datetime).toLocaleString()}</td>
-      <td>
-        <button class="edit-btn"   data-id="${e.event_id}">Edit</button>
-        <button class="delete-btn" data-id="${e.event_id}">Delete</button>
-        <button class="regs-btn"   data-id="${e.event_id}">Regs</button>
-      </td>
-    </tr>
-  `).join('');
-}
+    const tb = $('#events-body');
+    if(!rows.length){
+      tb.innerHTML = `<tr><td colspan="7">No events.</td></tr>`;
+      return;
+    }
+    tb.innerHTML = rows.map(e => `
+      <tr>
+        <td>${e.event_id}</td>
+        <td>${e.title}</td>
+        <td>${e.category_name ?? '-'}</td>
+        <td>${e.org_name ?? '-'}</td>
+        <td>${e.city ?? '-'}</td>
+        <td>${new Date(e.start_datetime).toLocaleString()}</td>
+        <td>
+          <button class="edit-btn"   data-id="${e.event_id}">Edit</button>
+          <button class="delete-btn" data-id="${e.event_id}">Delete</button>
+          <button class="regs-btn"   data-id="${e.event_id}">Regs</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+  
 
 function fillForm(e){
   $('#form-title').textContent = `Edit event #${e.event_id}`;
@@ -69,6 +73,13 @@ function clearForm(){
   $('#regs-body').innerHTML = `<tr><td colspan="5">Select an event.</td></tr>`;
   $('#form-msg').textContent='';
 }
+
+async function selectEvent(id) {
+    const evt = await fetchJSON(`${API}/events/${id}`);
+    fillForm(evt);
+    await loadRegs(id);
+  }
+  
 
 async function loadEvents(){
   const rows = await fetchJSON(`${API}/events`);
@@ -128,12 +139,6 @@ async function remove(id){
   }
 }
 
-document.addEventListener('click', (e)=>{
-  const edit = e.target.closest('[data-edit]');
-  if(edit){ const id=edit.dataset.edit; fetchJSON(`${API}/events/${id}`).then(evt=>{ fillForm(evt); loadRegs(id); }); }
-  const del = e.target.closest('[data-del]');
-  if(del){ remove(del.dataset.del); }
-});
 
 document.addEventListener('DOMContentLoaded', async ()=>{
   $('#event-form').addEventListener('submit', upsert);
@@ -145,5 +150,31 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     msg(`Connected to API: ${API}`, true);
   }catch(e){
     msg(`API error: ${e.message}`);
+  }
+});
+
+const tbody = document.getElementById('events-body');
+
+tbody.addEventListener('click', async (ev) => {
+  const btn = ev.target.closest('button');
+  if (!btn) return;
+
+  const id = Number(btn.dataset.id);
+
+  if (btn.classList.contains('edit-btn')) {
+    await selectEvent(id);           // fills the form + renders regs
+    return;
+  }
+
+  if (btn.classList.contains('delete-btn')) {
+    await remove(id);                // your existing delete flow
+    return;
+  }
+
+  if (btn.classList.contains('regs-btn')) {
+    await selectEvent(id);           // loads regs
+    document.getElementById('regs-card')
+            ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
   }
 });
