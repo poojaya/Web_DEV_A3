@@ -28,11 +28,15 @@ async function loadLookups(){
 }
 
 function renderEvents(rows){
-    const tb = $('#events-body');
-    if(!rows.length){
+    const tb = document.getElementById('events-body');
+    if (!rows.length) {
       tb.innerHTML = `<tr><td colspan="7">No events.</td></tr>`;
       return;
     }
+  
+    // preserve API base so the next page knows where to call
+    const apiParam = encodeURIComponent((window.API_BASE || '').replace(/\/$/,''));
+  
     tb.innerHTML = rows.map(e => `
       <tr>
         <td>${e.event_id}</td>
@@ -42,13 +46,13 @@ function renderEvents(rows){
         <td>${e.city ?? '-'}</td>
         <td>${new Date(e.start_datetime).toLocaleString()}</td>
         <td>
-          <button class="edit-btn"   data-id="${e.event_id}">Edit</button>
-          <button class="delete-btn" data-id="${e.event_id}">Delete</button>
-          <button class="regs-btn"   data-id="${e.event_id}">Regs</button>
+          <button data-edit="${e.event_id}">Edit</button>
+          <button data-del="${e.event_id}">Delete</button>
+          <a class="regs-link" href="regs.html?id=${e.event_id}&api=${apiParam}">Regs</a>
         </td>
       </tr>
     `).join('');
-  }
+  }  
   
 
 function fillForm(e){
