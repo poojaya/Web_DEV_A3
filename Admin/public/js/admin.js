@@ -159,26 +159,23 @@ document.addEventListener('DOMContentLoaded', async ()=>{
 
 const tbody = document.getElementById('events-body');
 
-tbody.addEventListener('click', async (ev) => {
-  const btn = ev.target.closest('button');
-  if (!btn) return;
-
-  const id = Number(btn.dataset.id);
-
-  if (btn.classList.contains('edit-btn')) {
-    await selectEvent(id);           // fills the form + renders regs
+tbody.addEventListener('click', async (e) => {
+  const edit = e.target.closest('[data-edit]');
+  if (edit) {
+    const id = Number(edit.dataset.edit);
+    try {
+      await selectEvent(id);     
+    } catch (err) {
+      msg(err.message);
+    }
     return;
   }
 
-  if (btn.classList.contains('delete-btn')) {
-    await remove(id);                // your existing delete flow
+  const del = e.target.closest('[data-del]');
+  if (del) {
+    const id = Number(del.dataset.del);
+    await remove(id);
     return;
   }
 
-  if (btn.classList.contains('regs-btn')) {
-    await selectEvent(id);           // loads regs
-    document.getElementById('regs-card')
-            ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    return;
-  }
 });
