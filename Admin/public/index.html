@@ -38,12 +38,8 @@
       <h2 id="form-title">New event</h2>
       <form id="event-form">
         <input type="hidden" id="event_id" />
-        <label>Organisation
-          <select id="org_id" required></select>
-        </label>
-        <label>Category
-          <select id="category_id" required></select>
-        </label>
+        <label>Organisation <select id="org_id" required></select></label>
+        <label>Category <select id="category_id" required></select></label>
         <label>Title <input id="title" required></label>
         <label>Start <input id="start_datetime" type="datetime-local" required></label>
         <label>End <input id="end_datetime" type="datetime-local"></label>
@@ -61,31 +57,19 @@
         </div>
       </form>
       <div id="form-msg"></div>
-
-      <h3>Registrations (selected event)</h3>
-    <div id="regs-card">
-    <table>
-        <thead>
-        <tr><th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th></tr>
-        </thead>
-        <tbody id="regs-body">
-        <tr><td colspan="5">Select an event.</td></tr>
-        </tbody>
-    </table>
-    </div>
-
+    </section>
+  </div>
 
   <script>
     window.API_BASE = (new URLSearchParams(location.search).get('api') || '').replace(/\/$/, '');
   </script>
   <script src="/config.js"></script>
-<script>
-  window.API_BASE = (new URLSearchParams(location.search).get('api')
-                    || window.API_BASE
-                    || 'http://localhost:3060/api').replace(/\/$/, '');
-  console.log('Admin using API_BASE =', window.API_BASE);
-</script>
-<script src="js/admin.js"></script>
-  
+  <script>
+    window.API_BASE = (new URLSearchParams(location.search).get('api')
+                      || window.API_BASE
+                      || 'http://localhost:3060/api').replace(/\/$/, '');
+    console.log('Admin using API_BASE =', window.API_BASE);
+  </script>
+  <script src="js/admin.js"></script>
 </body>
 </html>
