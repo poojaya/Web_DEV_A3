@@ -147,18 +147,31 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE /events/:id
+// DELETE /events/:id  (block when registrations exist)
 router.delete('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
+    // 1) refuse if registrations exist
+    const rows = await db.query(
+      'SELECT COUNT(*) AS cnt FROM registrations WHERE event_id = ?',
+      [id]
+    );
+    const cnt = Array.isArray(rows) ? rows[0].cnt : rows.cnt;
+    if (cnt > 0) {
+      return res.status(400).json({ error: 'Cannot delete: registrations exist' });
+    }
+
+    // 2) delete the event
     const result = await db.query('DELETE FROM events WHERE event_id = ?', [id]);
     if (!result.affectedRows) return res.status(404).json({ error: 'Not found' });
+
     res.json({ ok: true });
   } catch (err) {
     console.error('DELETE /events/:id error', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 module.exports = router;
 // routes/events.js  (GET /api/events/:id)
