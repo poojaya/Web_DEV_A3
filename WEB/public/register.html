@@ -8,10 +8,18 @@
 <p id="event-brief"></p>
 
 <form id="reg-form">
-  <label>Full name * <input id="full_name" required></label><br>
-  <label>Email * <input id="email" type="email" required></label><br>
-  <label>Phone <input id="phone"></label><br>
-  <label>Tickets * <input id="tickets" type="number" min="1" value="1" required></label><br>
+  <label>Full name *
+    <input id="full_name" required autocomplete="name">
+  </label><br>
+  <label>Email *
+    <input id="email" type="email" required autocomplete="email">
+  </label><br>
+  <label>Phone
+    <input id="phone" autocomplete="tel" inputmode="tel">
+  </label><br>
+  <label>Tickets *
+    <input id="tickets" type="number" min="1" value="1" required>
+  </label><br>
   <button type="submit">Confirm registration</button>
 </form>
 
