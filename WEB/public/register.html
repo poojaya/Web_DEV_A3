@@ -1,18 +1,74 @@
-<a id="back-link" href="#">← Back</a>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <!-- inline icon sprites (no external assets) -->
+  <svg width="0" height="0" style="position:absolute">
+    <symbol id="i-clock" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.75a10.25 10.25 0 1 0 0 20.5a10.25 10.25 0 0 0 0-20.5m.75 5.5a.75.75 0 0 0-1.5 0v5.19c0 .3.18.57.45.69l4.13 1.86a.75.75 0 1 0 .62-1.36l-3.7-1.66z"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path fill="currentColor" d="m15 6l-6 3l-6-3v12l6 3l6-3l6 3V9zM9 20V8l6-3v12z"/></symbol>
+    <symbol id="i-dollar" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1a1 1 0 0 1 1 1v1.06c2.28.27 4 1.66 4 3.69c0 2.49-2.18 3.41-4.83 3.96l-.17.03V16c1.47-.1 2.5-.66 2.5-1.63c0-.67-.41-1.08-1.27-1.39a1 1 0 0 1 .66-1.88c1.59.56 2.61 1.59 2.61 3.27c0 2.27-2.02 3.74-4.5 3.95V22a1 1 0 0 1-2 0v-1.04C7.72 20 6 18.61 6 16.58c0-2.5 2.19-3.41 4.83-3.96l.17-.03V8c-1.52.1-2.5.7-2.5 1.63c0 .63.43 1.05 1.27 1.36a1 1 0 1 1-.66 1.9C6.53 12.39 5.5 11.34 5.5 9.64c0-2.27 2.02-3.74 4.5-3.95V2a1 1 0 0 1 1-1"/></symbol>
+  </svg>
 
-<h1>Register</h1>
+  <div class="container">
+    <div class="header">
+      <a id="back-link" href="#"><span aria-hidden="true">←</span> Back to event</a>
+    </div>
 
-<p id="msg">Loading event...</p>
+    <div class="card">
+      <div class="hero">
+        <h1 class="title" id="event-title">Loading…</h1>
+        <div class="meta" id="event-brief">
+          <!-- filled by JS -->
+        </div>
+      </div>
 
-<p><strong id="event-title"></strong></p>
-<p id="event-brief"></p>
+      <div class="card-body card-grid">
+        <!-- left: “graphics” and summary chips -->
+        <section>
+          <div class="badge"><svg class="icon"><use href="#i-clock"/></svg><span id="when-chip">When: —</span></div>
+          <div class="badge" style="margin-left:8px"><svg class="icon"><use href="#i-map"/></svg><span id="where-chip">Where: —</span></div>
+          <div class="badge" style="margin-left:8px"><svg class="icon"><use href="#i-dollar"/></svg><span id="price-chip">Ticket: —</span></div>
 
-<form id="reg-form">
-  <label>Full name * <input id="full_name" required></label><br>
-  <label>Email * <input id="email" type="email" required></label><br>
-  <label>Phone <input id="phone"></label><br>
-  <label>Tickets * <input id="tickets" type="number" min="1" value="1" required></label><br>
-  <button type="submit">Confirm registration</button>
-</form>
+          <!-- simple decorative graphic -->
+          <div style="margin-top:18px;border-radius:14px;height:140px; background:
+              radial-gradient(120px 60px at 20% 20%, rgba(255,255,255,.08), transparent 60%),
+              radial-gradient(160px 80px at 80% 10%, rgba(255,255,255,.07), transparent 60%),
+              linear-gradient(135deg, rgba(106,169,255,.25), rgba(59,214,198,.18));
+              border:1px solid rgba(255,255,255,.08)"></div>
+        </section>
 
-<script src="/js/register.js"></script>
+        <!-- right: form -->
+        <section>
+          <form id="reg-form" novalidate>
+            <label>Full name *</label>
+            <input id="full_name" required placeholder="Your name">
+
+            <label>Email *</label>
+            <input id="email" type="email" required placeholder="you@example.com" autocomplete="email">
+
+            <label>Phone</label>
+            <input id="phone" inputmode="tel" autocomplete="tel">
+
+            <label>Tickets *</label>
+            <input id="tickets" type="number" min="1" value="1" required>
+
+            <div class="actions">
+              <button id="submitBtn" type="submit" class="btn">Confirm registration</button>
+              <button type="button" class="btn btn-outline" id="resetBtn">Reset</button>
+            </div>
+
+            <div id="msg" class="alert" aria-live="polite" style="display:none"></div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/register.js"></script>
+</body>
+</html>
