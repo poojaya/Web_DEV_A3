@@ -1,19 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Charity Events</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/css/app.css?v=2">
+</head>
 <body>
-  <nav style="margin:12px 0">
-    <a href="/index.html">Home</a> |
-    <a href="/events.html">Browse events</a> |
-  </nav>
-
-  <h1>Charity Events</h1>
-
-  <section style="max-width:900px">
-    <h2>About us</h2>
-    <p>We support local causes through community events. Contact: info@example.org</p>
-
-    <h2 style="margin-top:24px">Upcoming events</h2>
-    <div id="home-list">Loading…</div>
-  </section>
-  <link rel="stylesheet" href="/css/app.css?v=1">
+  <div class="container">
+    <header class="topbar">
+      <a href="/index.html">Home</a>
+      <a href="/events.html">Browse events</a>
+      <a href="/add.html">Add event</a>
+    </header>
+    <section class="card">
+      <div class="section">
+        <h1>Charity Events</h1>
+        <p class="muted">We support local causes through community events. Contact: info@example.org</p>
+      </div>
+    </section>
+    <section class="mt-3">
+      <h2>Upcoming events</h2>
+      <div id="home-list" class="event-grid mt-2">Loading…</div>
+    </section>
+  </div>
+  <svg style="position:absolute; width:0; height:0; overflow:hidden">
+    <symbol id="i-calendar" viewBox="0 0 24 24"><path fill="currentColor" d="M7 2v2H5a2 2 0 0 0-2 2v2h18V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm14 8H3v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10Z"/></symbol>
+    <symbol id="i-location" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path fill="currentColor" d="M16 11a4 4 0 1 0-4-4a4 4 0 0 0 4 4Zm-8 1a4 4 0 1 0-4-4a4 4 0 0 0 4 4Zm0 2c-3.31 0-6 1.79-6 4v2h8v-2c0-1.48.81-2.77 2.07-3.58A8.7 8.7 0 0 0 8 14Zm8 0c-1.29 0-2.49.31-3.5.85A4.97 4.97 0 0 1 18 19v2h6v-2c0-2.21-3.13-5-8-5Z"/></symbol>
+  </svg>
 
   <script src="/js/home.js"></script>
 </body>
+</html>
