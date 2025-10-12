@@ -1,34 +1,44 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Event details</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/css/app.css?v=2">
 </head>
 <body>
-  <p>
-    <a href="/index.html">Home</a> |
-    <a href="/events.html">Browse events</a> |
-  </p>
-  <p><a href="/events.html">← Back to events</a></p>
+  <div class="container">
+    <header class="topbar">
+      <a href="/index.html">Home</a>
+      <a href="/events.html">Browse events</a>
+    </header>
 
-  <div id="event-detail">Loading…</div>
-  <p>
-    <a id="register-link" class="btn" href="#">Register</a>
-  </p>
-  <h3>Registrations</h3>
-  <table border="1" cellpadding="6" cellspacing="0" width="100%">
-    <thead>
-      <tr>
-        <th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th>
-      </tr>
-    </thead>
-    <tbody id="regs-body">
-      <tr><td colspan="5">Loading…</td></tr>
-    </tbody>
-  </table>
-  <p id="regs-summary"></p>
-  <link rel="stylesheet" href="/css/app.css?v=1">
+    <div class="card">
+      <div class="section">
+        <p><a href="/events.html">← Back to events</a></p>
+        <div id="event-detail" class="mt-2">Loading…</div>
+
+        <div class="mt-3">
+          <a id="register-link" class="btn primary" href="#">Register</a>
+        </div>
+
+        <h3 class="mt-4">Registrations</h3>
+        <div class="table mt-2">
+          <table>
+            <thead>
+              <tr>
+                <th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th>
+              </tr>
+            </thead>
+            <tbody id="regs-body">
+              <tr><td colspan="5" class="muted">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p id="regs-summary" class="muted mt-2"></p>
+      </div>
+    </div>
+  </div>
 
   <script src="/js/event.js"></script>
 </body>
