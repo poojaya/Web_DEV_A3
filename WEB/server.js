@@ -14,3 +14,5 @@ app.get('*', (_req, res) =>
 );
 
 app.listen(PORT, () => console.log(`WEB listening on ${PORT}`));
+
+app.use(express.static("public")); 
