@@ -248,3 +248,22 @@
   .muted{ color:var(--muted) }
   .mt-2{ margin-top:12px } .mt-3{ margin-top:18px } .mt-4{ margin-top:24px }
   
+.event-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:18px }
+@media (max-width:1024px){ .event-grid{ grid-template-columns: repeat(2, 1fr) } }
+@media (max-width:640px){ .event-grid{ grid-template-columns: 1fr } }
+.event-title{ margin:.3rem 0 .5rem; font-size: clamp(18px, 2.4vw, 22px) }
+.meta{ display:flex; flex-wrap:wrap; gap:8px; align-items:center }
+.chip{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 10px; border-radius:999px;
+  background: rgba(255,255,255,.06); color: var(--text);
+  font-size:12.5px; border:1px solid rgba(255,255,255,.08);
+}
+.icon{ width:16px; height:16px; opacity:.9 }
+.hero{
+  background:
+    radial-gradient(600px 240px at -20% 120%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 70%),
+    radial-gradient(500px 220px at 120% 120%, color-mix(in srgb, var(--primary-2) 22%, transparent), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+  border:1px solid rgba(255,255,255,.06);
+}
