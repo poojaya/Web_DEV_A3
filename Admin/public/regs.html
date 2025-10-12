@@ -1,25 +1,33 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Admin • Registrations</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,sans-serif; max-width:900px; margin:2rem auto;}
-    table{width:100%; border-collapse:collapse; margin-top:.5rem}
-    th,td{border:1px solid #ccc; padding:.5rem;}
-  </style>
+  <link rel="stylesheet" href="/css/app.css?v=3">
 </head>
 <body>
-  <p><a id="back">&larr; Back to events</a></p>
+  <div class="container">
+    <header class="topbar">
+      <a id="back">&larr; Back to events</a>
+    </header>
 
-  <h1 id="title">Registrations</h1>
-  <p id="event-brief"></p>
+    <section class="card mt-3">
+      <div class="section">
+        <h1 id="title">Registrations</h1>
+        <p id="event-brief" class="muted"></p>
 
-  <table>
-    <thead><tr><th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th></tr></thead>
-    <tbody id="tbody"><tr><td colspan="5">Loading…</td></tr></tbody>
-  </table>
+        <div class="table mt-2">
+          <table>
+            <thead>
+              <tr><th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th></tr>
+            </thead>
+            <tbody id="tbody"><tr><td colspan="5" class="muted">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
 
   <script>
     const qs = n => new URLSearchParams(location.search).get(n);

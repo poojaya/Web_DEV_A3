@@ -1,0 +1,80 @@
+/* --- Admin visuals --- */
+
+/* Page background blobs (subtle, reusable) */
+.admin-bg{
+    background:
+      radial-gradient(800px 400px at 15% -10%, rgba(78,140,255,.14), transparent 60%),
+      radial-gradient(700px 360px at 110% 0%, rgba(59,214,198,.12), transparent 58%),
+      var(--bg);
+  }
+  
+  /* Hero panel */
+  .hero-admin{
+    position:relative;
+    border-radius: var(--radius);
+    border:1px solid rgba(255,255,255,.08);
+    background:
+      radial-gradient(600px 240px at -20% 120%, color-mix(in srgb, var(--primary) 22%, transparent), transparent 70%),
+      radial-gradient(520px 200px at 120% 120%, color-mix(in srgb, var(--primary-2) 20%, transparent), transparent 70%),
+      linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+    box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  .hero-admin .section{ padding:22px }
+  .hero-kicker{ display:inline-flex; gap:8px; align-items:center; }
+  .hero-kicker .dot{ width:8px; height:8px; border-radius:999px; background:var(--primary) }
+  
+  /* Stat tiles */
+  .stats{ display:grid; grid-template-columns: repeat(4,1fr); gap:14px }
+  @media (max-width:980px){ .stats{ grid-template-columns: repeat(2,1fr) } }
+  @media (max-width:560px){ .stats{ grid-template-columns: 1fr } }
+  .stat{
+    background: linear-gradient(180deg, var(--surface), var(--panel));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:12px; padding:16px;
+    box-shadow: var(--shadow);
+  }
+  .stat .label{ color:var(--muted); font-size:12.5px }
+  .stat .value{ font-size: clamp(20px,3vw,26px); font-weight:700; margin-top:6px }
+  .stat .trend{ font-size:12px; margin-top:6px }
+  .trend.up{ color:#9be7a5 } .trend.down{ color:#ffc0c0 }
+  
+  /* Table polish */
+  .table .badge{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:4px 8px; border-radius:999px;
+    background: rgba(255,255,255,.08); font-size:12px;
+    border:1px solid rgba(255,255,255,.10);
+  }
+  .table tbody tr:hover{ background: rgba(255,255,255,.05) }
+  
+  /* Action buttons */
+  .btn.small{ padding:6px 10px; font-size:13px; border-radius:8px }
+  .btn.danger{
+    background: rgba(255,93,93,.16);
+    border:1px solid rgba(255,93,93,.38);
+    color:#ffd4d4;
+  }
+  .btn.danger:hover{ background: rgba(255,93,93,.25) }
+  
+  /* Form sidebar card look (if you have a right column) */
+  .admin-form{
+    background: linear-gradient(180deg, var(--surface), var(--panel));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  
+  /* Empty state */
+  .empty{
+    text-align:center; padding:24px; color:var(--muted);
+    border:1px dashed rgba(255,255,255,.18); border-radius:12px;
+  }
+  
+.btn.small{ padding:6px 10px; font-size:13px; border-radius:8px }
+.btn.danger{
+  background: rgba(255,93,93,.16);
+  border:1px solid rgba(255,93,93,.38);
+  color:#ffd4d4;
+}
+.btn.danger:hover{ background: rgba(255,93,93,.25) }

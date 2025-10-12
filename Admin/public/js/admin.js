@@ -14,9 +14,10 @@ function fromMySQL(iso){
   return local.toISOString().slice(0,16);
 }
 function msg(text, ok=false){
-  const el=$("#msg");
-  el.className = ok?'ok':'danger';
-  el.textContent=text;
+    const el = document.getElementById('msg');
+    el.style.display = 'block';
+    el.className = ok ? 'notice ok' : 'notice error';
+    el.textContent = text;
 }
 async function fetchJSON(url, opt){
   const r = await fetch(url, opt);
@@ -36,28 +37,30 @@ async function loadLookups(){
 }
 
 function renderEvents(rows){
-  const tb = document.getElementById('events-body');
-  if(!rows.length){
-    tb.innerHTML = `<tr><td colspan="7">No events.</td></tr>`;
-    return;
+    const tb = document.getElementById('events-body');
+    if(!rows.length){
+      tb.innerHTML = `<tr><td colspan="7" class="muted">No events.</td></tr>`;
+      return;
+    }
+    const apiParam = encodeURIComponent((window.API_BASE || '').replace(/\/$/,''));
+    tb.innerHTML = rows.map(e => `
+      <tr>
+        <td>${e.event_id}</td>
+        <td>${e.title}</td>
+        <td>${e.category_name ?? '-'}</td>
+        <td>${e.org_name ?? '-'}</td>
+        <td>${e.city ?? '-'}</td>
+        <td>${new Date(e.start_datetime).toLocaleString()}</td>
+        <td>
+          <div style="display:flex; gap:6px; flex-wrap:wrap">
+            <button class="btn small ghost" data-edit="${e.event_id}">Edit</button>
+            <a class="btn small ghost" href="regs.html?id=${e.event_id}&api=${apiParam}">Regs</a>
+            <button class="btn small danger" data-del="${e.event_id}">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
   }
-  const apiParam = encodeURIComponent((window.API_BASE || '').replace(/\/$/,''));
-  tb.innerHTML = rows.map(e => `
-    <tr>
-      <td>${e.event_id}</td>
-      <td>${e.title}</td>
-      <td>${e.category_name ?? '-'}</td>
-      <td>${e.org_name ?? '-'}</td>
-      <td>${e.city ?? '-'}</td>
-      <td>${new Date(e.start_datetime).toLocaleString()}</td>
-      <td>
-        <button data-edit="${e.event_id}">Edit</button>
-        <button data-del="${e.event_id}">Delete</button>
-        <a class="regs-link" href="regs.html?id=${e.event_id}&api=${apiParam}">Regs</a>
-      </td>
-    </tr>
-  `).join('');
-}
 
 function fillForm(e){
   $('#form-title').textContent = `Edit event #${e.event_id}`;
