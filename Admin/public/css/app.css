@@ -89,3 +89,35 @@
   z-index: 50;
   backdrop-filter: saturate(140%) blur(6px);
 }
+
+.container{ max-width: 1240px; }
+
+.admin-workspace{
+  display:grid;
+  grid-template-columns: 1.7fr 1fr; 
+  gap:18px;
+}
+@media (max-width: 1160px){
+  .admin-workspace{ grid-template-columns: 1fr; }
+}
+
+.table-scroll{
+  max-height: 60vh;
+  overflow:auto;
+  border-radius: var(--radius);
+}
+.table thead th{ position: sticky; top: 0; z-index: 1 }
+
+.table td:last-child{ white-space: nowrap; width: 1%; }
+
+#event-form *{ min-width: 0; }
+#event-form input,
+#event-form select,
+#event-form textarea{ width:100%; }
+
+.card .section{ padding:16px; }
+.hero-admin .section{ padding:16px 18px; }
+
+.stats .stat{ min-height:108px; }
+
+.sticky-header{ position:sticky; top:0; z-index:40; backdrop-filter:saturate(130%) blur(6px); }
