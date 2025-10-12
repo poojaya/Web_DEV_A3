@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Register</title>
-  <link rel="stylesheet" href="/css/app.css">
+
+  <link rel="stylesheet" href="/css/app.css?v=2">
+
 </head>
 <body>
   <!-- inline icon sprites (no external assets) -->
@@ -58,8 +60,8 @@
             <input id="tickets" type="number" min="1" value="1" required>
 
             <div class="actions">
-              <button id="submitBtn" type="submit" class="btn">Confirm registration</button>
-              <button type="button" class="btn btn-outline" id="resetBtn">Reset</button>
+                <button id="submitBtn" type="submit" class="btn primary">Confirm registration</button>
+                <button type="button" class="btn ghost" id="resetBtn">Reset</button>                
             </div>
 
             <div id="msg" class="alert" aria-live="polite" style="display:none"></div>
@@ -68,7 +70,6 @@
       </div>
     </div>
   </div>
-  <link rel="stylesheet" href="/css/app.css?v=1">
 
   <script src="/js/register.js"></script>
 </body>
