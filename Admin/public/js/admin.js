@@ -13,12 +13,7 @@ function fromMySQL(iso){
   const local = new Date(d.getTime() - d.getTimezoneOffset()*60000);
   return local.toISOString().slice(0,16);
 }
-function msg(text, ok=false){
-    const el = document.getElementById('msg');
-    el.style.display = 'block';
-    el.className = ok ? 'notice ok' : 'notice error';
-    el.textContent = text;
-}
+
 async function fetchJSON(url, opt){
   const r = await fetch(url, opt);
   const t = await r.text();
@@ -36,7 +31,14 @@ async function loadLookups(){
   $('#org_id').innerHTML      = orgs.map(o=>`<option value="${o.org_id}">${o.name}</option>`).join('');
 }
 
-function renderEvents(rows){
+function msg(text, ok=false){
+    const el = document.getElementById('msg');
+    el.style.display = 'block';
+    el.className = ok ? 'notice ok' : 'notice error';
+    el.textContent = text;
+  }
+  
+  function renderEvents(rows){
     const tb = document.getElementById('events-body');
     if(!rows.length){
       tb.innerHTML = `<tr><td colspan="7" class="muted">No events.</td></tr>`;
@@ -61,6 +63,7 @@ function renderEvents(rows){
       </tr>
     `).join('');
   }
+  
 
 function fillForm(e){
   $('#form-title').textContent = `Edit event #${e.event_id}`;
