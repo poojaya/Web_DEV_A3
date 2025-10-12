@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Event details</title>
+  <title>Browse events</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/css/app.css?v=2">
 </head>
@@ -11,35 +11,67 @@
     <header class="topbar">
       <a href="/index.html">Home</a>
       <a href="/events.html">Browse events</a>
+      <a href="/add.html">Add event</a>
     </header>
 
-    <div class="card">
+    <!-- Search / filters -->
+    <section class="card">
       <div class="section">
-        <p><a href="/events.html">← Back to events</a></p>
-        <div id="event-detail" class="mt-2">Loading…</div>
+        <h1>Browse events</h1>
+        <form id="search-form" class="form-row" style="gap:12px">
+          <input id="q" type="search" placeholder="Search title/description…">
 
-        <div class="mt-3">
-          <a id="register-link" class="btn primary" href="#">Register</a>
-        </div>
+          <select id="category">
+            <option value="">All categories</option>
+            <option value="1">Fun Run</option>
+            <option value="2">Workshop</option>
+            <option value="3">Charity Dinner</option>
+          </select>
 
-        <h3 class="mt-4">Registrations</h3>
-        <div class="table mt-2">
-          <table>
-            <thead>
-              <tr>
-                <th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th>
-              </tr>
-            </thead>
-            <tbody id="regs-body">
-              <tr><td colspan="5" class="muted">Loading…</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p id="regs-summary" class="muted mt-2"></p>
+          <select id="org">
+            <option value="">All organisations</option>
+            <option value="1">Charity A</option>
+            <option value="2">Charity B</option>
+          </select>
+
+          <input id="city"  type="text"  placeholder="City">
+          <input id="state" type="text"  placeholder="State">
+          <input id="date"  type="date">
+
+          <div class="spread mt-2">
+            <div>
+              <button class="btn primary" type="submit">Search</button>
+              <button class="btn ghost" type="button" id="reset-btn">Reset</button>
+            </div>
+          </div>
+        </form>
       </div>
-    </div>
+    </section>
+
+    <!-- Results table -->
+    <section class="mt-3">
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>When</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Organisation</th>
+              <th>Location</th>
+              <th>Goal</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="results-body">
+            <tr><td colspan="7" class="muted">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
 
-  <script src="/js/event.js"></script>
+  <!-- IMPORTANT: list page script -->
+  <script src="/js/events.js"></script>
 </body>
 </html>
