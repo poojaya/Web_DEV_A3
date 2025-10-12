@@ -1,60 +1,45 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Browse Events</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="/css/styles.css" />
+  <title>Event details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/css/app.css?v=2">
 </head>
 <body>
-  <p><a href="/index.html">← Home</a></p>
-  <h1>Browse Events</h1>
+  <div class="container">
+    <header class="topbar">
+      <a href="/index.html">Home</a>
+      <a href="/events.html">Browse events</a>
+    </header>
 
-  <form id="search-form" style="display:grid;gap:8px;max-width:760px">
-    <input id="q" type="text" placeholder="Search text (title/description)" />
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <select id="category">
-        <option value="">Any category</option>
-        <option value="1">Fun Run</option>
-        <option value="2">Workshop</option>
-        <option value="3">Charity Dinner</option>
-      </select>
+    <div class="card">
+      <div class="section">
+        <p><a href="/events.html">← Back to events</a></p>
+        <div id="event-detail" class="mt-2">Loading…</div>
 
-      <select id="org">
-        <option value="">Any organisation</option>
-        <option value="1">Charity A</option>
-        <option value="2">Charity B</option>
-      </select>
+        <div class="mt-3">
+          <a id="register-link" class="btn primary" href="#">Register</a>
+        </div>
 
-      <input id="date" type="date" />
-      <input id="city" type="text" placeholder="City" />
-      <input id="state" type="text" placeholder="State" />
+        <h3 class="mt-4">Registrations</h3>
+        <div class="table mt-2">
+          <table>
+            <thead>
+              <tr>
+                <th>When</th><th>Name</th><th>Tickets</th><th>Email</th><th>Phone</th>
+              </tr>
+            </thead>
+            <tbody id="regs-body">
+              <tr><td colspan="5" class="muted">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p id="regs-summary" class="muted mt-2"></p>
+      </div>
     </div>
+  </div>
 
-    <div style="display:flex;gap:8px">
-      <button type="submit">Search</button>
-      <button type="button" id="reset-btn">Reset</button>
-    </div>
-  </form>
-
-  <h2 style="margin-top:24px">Results</h2>
-  <table border="1" cellpadding="6" cellspacing="0" style="width:100%;max-width:980px">
-    <thead>
-      <tr>
-        <th>When</th>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Org</th>
-        <th>City</th>
-        <th>Goal</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="results-body"></tbody>
-  </table>
-  <link rel="stylesheet" href="/css/app.css?v=1">
-
-  <!-- IMPORTANT: this page must load ONLY events.js -->
-  <script src="/js/events.js"></script>
+  <script src="/js/event.js"></script>
 </body>
 </html>
