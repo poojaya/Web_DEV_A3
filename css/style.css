@@ -1,0 +1,250 @@
+/* ===== Base / theme ===== */
+:root{
+    --bg: #0b1020;
+    --card: #121a33;
+    --muted: #8ea3c2;
+    --text: #eaf2ff;
+    --brand: #6aa9ff;
+    --brand-2: #3bd6c6;
+    --danger: #ff6b6b;
+    --ok: #1fc16b;
+    --ring: color-mix(in srgb, var(--brand) 40%, transparent);
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius: 16px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root{
+      --bg:#f6f8ff; --card:#ffffff; --text:#1a2b49; --muted:#5d6a82;
+      --shadow: 0 10px 25px rgba(19,34,68,.08);
+    }
+  }
+  
+  *{ box-sizing:border-box }
+  html,body{ height:100% }
+  body{
+    margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    color:var(--text); background: radial-gradient(1200px 600px at 10% -10%, #132147, transparent 60%),
+                        radial-gradient(900px 500px at 90% 0%, #0b1b36, transparent 55%),
+                        var(--bg);
+  }
+  
+  /* ===== Layout ===== */
+  .container{ max-width: 980px; margin: 40px auto; padding: 0 20px }
+  .header{
+    display:flex; align-items:center; gap:12px; margin-bottom:20px;
+  }
+  .header a{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:10px 14px; border-radius:12px; text-decoration:none; color:var(--text);
+    background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+  }
+  .header a:hover{ background:rgba(255,255,255,.07) }
+  
+  .card{
+    background: var(--card); border:1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden;
+  }
+  
+  .card-body{ padding: 22px }
+  .card-grid{ display:grid; grid-template-columns: 1.2fr 1fr; gap:24px }
+  @media (max-width: 900px){ .card-grid{ grid-template-columns: 1fr } }
+  
+  /* ===== Event hero ===== */
+  .hero{
+    position:relative; padding:20px 22px 16px 22px;
+    background:
+      radial-gradient(600px 200px at -40% 120%, color-mix(in srgb, var(--brand) 25%, transparent), transparent 70%),
+      radial-gradient(500px 200px at 120% 120%, color-mix(in srgb, var(--brand-2) 25%, transparent), transparent 70%),
+      linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .title{ font-size: clamp(22px, 3vw, 28px); font-weight: 700; letter-spacing:.2px; margin:0 0 6px }
+  .meta{ display:flex; flex-wrap:wrap; gap:10px; color:var(--muted); font-size:14px }
+  .badge{
+    display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+    background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:var(--text);
+  }
+  
+  /* ===== Form ===== */
+  label{ display:block; font-size:14px; color:var(--muted); margin:12px 0 6px }
+  input, textarea, select{
+    width:100%; padding:12px 14px; border-radius:12px;
+    background:#0f152b; color:var(--text);
+    border:1px solid rgba(255,255,255,.12); outline:none;
+  }
+  input:focus, textarea:focus, select:focus{
+    border-color: var(--ring); box-shadow: 0 0 0 6px color-mix(in srgb, var(--ring) 40%, transparent);
+  }
+  .actions{ display:flex; gap:10px; align-items:center; margin-top:14px }
+  
+  .btn{
+    appearance:none; border:0; cursor:pointer; border-radius:12px;
+    padding:12px 16px; font-weight:600; color:#081021;
+    background: linear-gradient(180deg, var(--brand), color-mix(in srgb, var(--brand) 75%, #2a62ff));
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--brand) 25%, transparent);
+  }
+  .btn:hover{ filter: brightness(1.06) }
+  .btn:disabled{ opacity:.65; cursor:default }
+  .btn-outline{
+    background:transparent; color:var(--text);
+    border:1px solid rgba(255,255,255,.18)
+  }
+  
+  /* ===== Alerts ===== */
+  .alert{ margin:12px 0 0; padding:10px 12px; border-radius:12px; font-size:14px }
+  .alert.ok{ background: color-mix(in srgb, var(--ok) 15%, transparent); border:1px solid color-mix(in srgb, var(--ok) 60%, transparent) }
+  .alert.err{ background: color-mix(in srgb, var(--danger) 18%, transparent); border:1px solid color-mix(in srgb, var(--danger) 60%, transparent) }
+  
+  /* ===== Tiny icons (SVG <use>) ===== */
+  .icon{ width:16px; height:16px; opacity:.85 }
+  /* app.css — site-wide theme ------------------------------------------------ */
+:root{
+    --bg: #0b1220;
+    --surface: #111a2a;
+    --panel: #121c2d;
+    --muted: #8ea0bd;
+    --text: #e7eefc;
+    --primary: #4e8cff;
+    --primary-2: #2a74ff;
+    --ring: #82aaff;
+    --ok:#35c759;
+    --warn:#ffb020;
+    --danger:#ff5d5d;
+  
+    --radius: 14px;
+    --shadow: 0 8px 30px rgba(0,0,0,.35);
+  }
+  
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#f6f7fb; --surface:#fff; --panel:#fff;
+      --text:#132136; --muted:#6a778d;
+      --primary:#2a74ff; --primary-2:#195dff; --ring:#3b82f6;
+      --shadow: 0 8px 24px rgba(21, 30, 51, .10);
+    }
+  }
+  
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(1000px 600px at 20% -20%, rgba(78,140,255,.15), transparent 60%),
+      radial-gradient(800px 500px at 100% 0%, rgba(78,140,255,.12), transparent 50%),
+      var(--bg);
+  }
+  
+  a{ color:var(--primary); text-decoration:none }
+  a:hover{ text-decoration:underline }
+  
+  .container{
+    max-width: 1100px;
+    margin: 34px auto;
+    padding: 0 18px;
+  }
+  
+  .topbar{
+    display:flex; gap:10px; align-items:center; margin-bottom:18px;
+  }
+  .topbar a{ color:var(--muted) }
+  .topbar a:hover{ color:var(--text) }
+  
+  h1{ font-size: clamp(26px, 3vw, 34px); margin: 8px 0 18px }
+  h2{ font-size: 20px; opacity:.95; margin: 18px 0 8px }
+  
+  .card{
+    background: linear-gradient(180deg, var(--surface), var(--panel));
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  
+  .section{
+    padding: 18px;
+  }
+  
+  /* Buttons ----------------------------------------------------------------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    gap:8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: rgba(255,255,255,.06);
+    color: var(--text);
+    cursor: pointer;
+    transition: .18s ease;
+  }
+  .btn:hover{ background: rgba(255,255,255,.10) }
+  .btn:focus-visible{ outline: 2px solid var(--ring); outline-offset: 2px }
+  
+  .btn.primary{
+    background: linear-gradient(180deg, var(--primary), var(--primary-2));
+    border-color: rgba(255,255,255,.12);
+    color:#fff; font-weight:600;
+  }
+  .btn.primary:hover{ filter: brightness(1.08) }
+  .btn.ghost{ background: transparent; border-color: rgba(255,255,255,.12) }
+  
+  /* Pills / tags ------------------------------------------------------------ */
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 6px 10px; border-radius: 999px;
+    background: rgba(255,255,255,.06); color: var(--text);
+    font-size: 12.5px;
+  }
+  
+  /* Notices ----------------------------------------------------------------- */
+  .notice{ padding:10px 12px; border-radius:10px; background:rgba(255,255,255,.06); color:var(--muted) }
+  .notice.ok{ background: rgba(53,199,89,.12); color:#b8f6c6 }
+  .notice.error{ background: rgba(255,93,93,.12); color:#ffc0c0 }
+  
+  /* Forms ------------------------------------------------------------------- */
+  label{ display:block; margin:10px 0 6px; color:var(--muted); font-size:13px }
+  input, select, textarea{
+    width:100%; padding:12px 12px; color:var(--text);
+    background: rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:10px; outline:none;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  input::placeholder, textarea::placeholder{ color: #9bb0d1; opacity:.7 }
+  input:focus, select:focus, textarea:focus{
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 30%, transparent);
+    background: rgba(255,255,255,.09);
+  }
+  textarea{ min-height:120px; resize: vertical }
+  
+  .form-row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px }
+  @media (max-width:720px){ .form-row{ grid-template-columns:1fr } }
+  
+  /* Tables ------------------------------------------------------------------ */
+  table{ width:100%; border-collapse: collapse; border-spacing:0 }
+  .table{
+    background: linear-gradient(180deg, var(--surface), var(--panel));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .table th, .table td{
+    padding: 12px 14px; text-align:left; vertical-align: top;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .table thead th{ background: rgba(255,255,255,.05); color:var(--muted); font-weight:600; }
+  .table tbody tr:hover{ background: rgba(255,255,255,.04) }
+  .table tbody tr:last-child td{ border-bottom:0 }
+  
+  /* Utilities --------------------------------------------------------------- */
+  .grid{ display:grid; gap:18px }
+  .grid-2{ grid-template-columns: 2fr 1.2fr }
+  @media (max-width:980px){ .grid-2{ grid-template-columns:1fr } }
+  
+  .spread{ display:flex; justify-content:space-between; gap:10px; align-items:center }
+  .muted{ color:var(--muted) }
+  .mt-2{ margin-top:12px } .mt-3{ margin-top:18px } .mt-4{ margin-top:24px }
+  
