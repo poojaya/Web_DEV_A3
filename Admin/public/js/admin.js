@@ -136,17 +136,23 @@ async function remove(id){
 }
 
 document.addEventListener('DOMContentLoaded', async ()=>{
-  $('#event-form').addEventListener('submit', upsert);
-  $('#resetBtn').addEventListener('click', clearForm);
-  $('#reloadBtn').addEventListener('click', loadEvents);
-  try{
-    await loadLookups();
-    await loadEvents();
-    msg(`Connected to API: ${API}`, true);
-  }catch(e){
-    msg(`API error: ${e.message}`);
-  }
-});
+    $('#event-form').addEventListener('submit', upsert);
+    $('#resetBtn').addEventListener('click', clearForm);
+    $('#reloadBtn').addEventListener('click', async () => {
+      await loadEvents();
+      await loadStats();          
+    });
+  
+    try{
+      await loadLookups();
+      await loadEvents();
+      await loadStats();          
+      msg(`Connected to API: ${API}`, true);
+    }catch(e){
+      msg(`API error: ${e.message}`);
+    }
+  });
+  
 
 const tbody = document.getElementById('events-body');
 tbody.addEventListener('click', async (e) => {
@@ -162,3 +168,18 @@ tbody.addEventListener('click', async (e) => {
     return;
   }
 });
+
+function setTxt(id, v){ const el=document.getElementById(id); if (el) el.textContent = v; }
+function money(n){ return n==null ? '—' : n.toLocaleString(undefined,{style:'currency',currency:'AUD'}); }
+
+async function loadStats(){
+  try{
+    const s = await fetchJSON(`${API}/stats`);
+    setTxt('st-total',  s.total_events ?? '—');
+    setTxt('st-regs',   s.total_regs   ?? '—');
+    setTxt('st-ticket', money(s.avg_ticket));
+    setTxt('st-goal',   (s.goal_coverage_pct ?? 0) + '%');
+  }catch(e){
+    console.warn('stats error:', e.message);
+  }
+}
