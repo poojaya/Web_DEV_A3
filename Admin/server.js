@@ -40,5 +40,3 @@ app.get('/api/stats', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-const statsRouter = require('./routes/stats'); 
-app.use('/api', statsRouter);
