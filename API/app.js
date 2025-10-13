@@ -44,6 +44,13 @@ app.use('/api/registrations', require('./routes/registrations'));
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
+app.use('/api/events', require('./routes/events'));
+app.use('/api/registrations', require('./routes/registrations'));
+
+const statsRouter = require('./routes/stats');
+app.use('/api', statsRouter);  
+
+
 app.get('/api/categories', async (_req, res) => {
   try {
     const rows = await db.query(
