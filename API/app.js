@@ -29,24 +29,28 @@ const WEB_ORIGIN   = process.env.WEB_ORIGIN   || 'http://localhost:8080';
 const ADMIN_ORIGIN = process.env.ADMIN_ORIGIN || 'http://localhost:8090';
 
 app.use((req, res, next) => {
-  if (['POST','PUT','DELETE'].includes(req.method)) {
-    const origin = req.headers.origin; // undefined for curl/Postman
-    if (origin && origin !== ADMIN_ORIGIN) {
-      return res.status(403).json({ error: 'Admin-only operation' });
-    }
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+
+  const isPublicWrite =
+    req.method === 'POST' &&
+    (req.path === '/api/registrations' || req.path.startsWith('/api/registrations/'));
+
+  if (!['POST', 'PUT', 'DELETE'].includes(req.method) || isPublicWrite) {
+    return next();
+  }
+  const origin = req.headers.origin; 
+  if (origin && origin !== ADMIN_ORIGIN) {
+    return res.status(403).json({ error: 'Admin-only operation' });
   }
   next();
 });
+
 
 
 app.use('/api/events', require('./routes/events'));
 app.use('/api/registrations', require('./routes/registrations'));
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
-
-app.use('/api/events', require('./routes/events'));
-app.use('/api/registrations', require('./routes/registrations'));
-
 const statsRouter = require('./routes/stats');
 app.use('/api', statsRouter);  
 
